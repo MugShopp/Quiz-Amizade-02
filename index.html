@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz da Amizade</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #fceaff, #d5f4ff, #fffbe0);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 80px;
+      overflow: hidden;
+    }header img {
+  width: 190px;
+  margin: 30px 0 10px;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.quiz-container {
+  max-width: 800px;
+  width: 90%;
+  background: #ffffffcc;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  padding: 30px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.question {
+  margin-bottom: 25px;
+}
+
+.question h3 {
+  margin-bottom: 15px;
+  color: #007a6d;
+}
+
+.options button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 14px;
+  font-size: 1em;
+  background: linear-gradient(to bottom, #a2f3e8, #65d6c9);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #3aa79b;
+  color: #04302d;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.options button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+}
+
+#result {
+  margin-top: 40px;
+  text-align: center;
+  animation: fadeIn 1s ease forwards;
+}
+
+#result img {
+  max-width: 200px;
+  margin: 20px auto;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeInZoom 1s ease forwards;
+}
+
+@keyframes fadeInZoom {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+footer {
+  margin-top: 50px;
+  position: relative;
+  z-index: 1;
+}
+
+footer img {
+  width: 180px;
+  opacity: 0.8;
+}
+
+.floating {
+  position: absolute;
+  width: 40px;
+  animation: float 10s infinite linear;
+  z-index: 0;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+  </style>
+</head>
+<body>  <header>
+    <img src="https://i.postimg.cc/htLxrC3p/Photoroom-20250608-210804823.png" alt="Quiz da Amizade"/>
+  </header>  <h1>Quiz da Amizade</h1>  <div class="quiz-container" id="quiz"></div>  <div id="result"></div>  <footer>
+    <img src="Logo Alta Resolução.png" alt="MugShopp logo"/>
+  </footer>  <script>
+    const questions = [
+      { question: "Qual é a minha cor preferida?", options: ["Azul", "Vermelho", "Preto", "Rosa"], answer: "Azul" },
+      { question: "Se eu pudesse comer uma coisa pro resto da vida, o que seria?", options: ["Pizza", "Chocolate", "Sushi", "Pão com café"], answer: "Pizza" },
+      { question: "Qual é meu perfume favorito ou tipo de fragrância?", options: ["Doce e marcante", "Leve e floral", "Amadeirado", "Cítrico refrescante"], answer: "Leve e floral" },
+      { question: "Gosto mais da noite ou do dia?", options: ["Noite", "Dia"], answer: "Noite" },
+      { question: "Se eu pudesse viajar agora, escolheria um lugar com:", options: ["Praia e calor", "Montanha e frio", "Cidade grande", "Interior"], answer: "Praia e calor" },
+      { question: "O que me irrita mais?", options: ["Gente falsa", "Esperar", "Bagunça", "Barulho"], answer: "Bagunça" },
+      { question: "Meu maior talento é:", options: ["Criar", "Cozinhar", "Resolver problemas", "Fazer rir"], answer: "Cozinhar" },
+      { question: "Qual é meu maior medo ou insegurança?", options: ["Perder quem amo", "Fracassar", "Ficar sozinha", "Não ser compreendida"], answer: "Ficar sozinha" },
+      { question: "Se eu fosse um animal, seria:", options: ["Gato", "Cachorro", "Coruja", "Tigre"], answer: "Cachorro" },
+      { question: "O que a nossa amizade significa pra mim?", options: ["Apoio", "Diversão", "Refúgio", "Tudo isso"], answer: "Apoio" }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    const resultContainer = document.getElementById("result");
+    let score = 0;
+    let currentQuestion = 0;
+
+    function createBaloes() {
+      for (let i = 0; i < 20; i++) {
+        const bal = document.createElement("img");
+        bal.src = "questao.png";
+        bal.className = "floating";
+        bal.style.top = Math.random() * window.innerHeight + "px";
+        bal.style.left = Math.random() * window.innerWidth + "px";
+        bal.style.animationDuration = (8 + Math.random() * 5) + "s";
+        document.body.appendChild(bal);
+      }
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      quizContainer.innerHTML = `
+        <div class="question">
+          <h3>${index + 1}. ${q.question}</h3>
+          <div class="options">
+            ${q.options.map(option => `<button onclick="checkAnswer('${option}')">${option}</button>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected) {
+      if (selected === questions[currentQuestion].answer) {
+        score++;
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      let img = "";
+      if (score <= 4) {
+        img = "ruim.png";
+      } else if (score <= 7) {
+        img = "medio.png";
+      } else {
+        img = "bom.png";
+      }
+
+      quizContainer.innerHTML = "";
+      resultContainer.innerHTML = `
+        <h2>Resultado: ${score} de ${questions.length}</h2>
+        <img src="${img}" alt="Resultado"/>
+      `;
+    }
+
+    createBaloes();
+    showQuestion(currentQuestion);
+  </script></body>
+</html>
