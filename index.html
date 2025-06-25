@@ -7,13 +7,13 @@
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
-      background: #ffffff; /* Fundo branco */
-      color: #000000; /* Fontes pretas */
+      background: #ffffff;
+      color: #000000;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-bottom: 80px;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
     }header img {
   width: 190px;
   margin: 30px 0 10px;
@@ -73,8 +73,9 @@ h1 {
 }
 
 #result img {
-  max-width: 200px;
+  max-width: 250px;
   margin: 20px auto;
+  display: block;
   opacity: 0;
   transform: scale(0.8);
   animation: fadeInZoom 1s ease forwards;
@@ -88,14 +89,15 @@ h1 {
 }
 
 footer {
-  margin-top: 50px;
+  margin-top: 40px;
   position: relative;
   z-index: 1;
 }
 
 footer img {
-  width: 180px;
+  width: 150px;
   opacity: 0.8;
+  margin-top: 30px;
 }
 
 .floating {
@@ -124,7 +126,7 @@ footer img {
 <body>  <header>
     <img src="https://i.postimg.cc/htLxrC3p/Photoroom-20250608-210804823.png" alt="Quiz da Amizade"/>
   </header>  <h1>Quiz da Amizade</h1>  <div class="quiz-container" id="quiz"></div>  <div id="result"></div>  <footer>
-    <img src="Logo Alta Resolução.png" alt="MugShopp logo"/>
+    <img src="Logo%20Alta%20Resolu%C3%A7%C3%A3o.png" alt="MugShopp logo"/>
   </footer>  <script>
     const questions = [
       { question: "Qual é a minha cor preferida?", options: ["Azul", "Vermelho", "Preto", "Rosa"], answer: "Azul" },
@@ -185,15 +187,15 @@ footer img {
       if (score <= 4) {
         img = "ruim.png";
       } else if (score <= 7) {
-        img = "medio.png";
+        img = "Medio.png";
       } else {
-        img = "bom.png";
+        img = "Bom.png";
       }
 
       quizContainer.innerHTML = "";
       resultContainer.innerHTML = `
         <h2>Resultado: ${score} de ${questions.length}</h2>
-        <img src="${img}" alt="Resultado"/>
+        <img src="${img}" alt="Resultado" />
       `;
     }
 
